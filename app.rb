@@ -1,5 +1,13 @@
 require 'sinatra'
 
 get '/' do
-  erb :index
+  erb :home
+end
+
+get '/scatter' do
+  erb :scatter
+end
+
+get '/bar' do
+  erb :bar
 end
