@@ -23,24 +23,24 @@ draw = (data) ->
        attr('width', maxBarWidth + barLabelWidth + valueLabelWidth).
        attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight)
 
-  # Grid line labels
   gridContainer =
     chart.append('g').
           attr('transform', "translate(#{barLabelWidth}, #{gridLabelHeight})")
 
-  gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text").
-    attr("x", x).
-    attr("dy", -3).
-    attr("text-anchor", "middle").
-    text(String)
+  # Grid line labels
+  # gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text").
+  #   attr("x", x).
+  #   attr("dy", -3).
+  #   attr("text-anchor", "middle").
+  #   text(String)
 
   # Vertical grid lines
-  gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line").
-    attr("x1", x).
-    attr("x2", x).
-    attr("y1", 0).
-    attr("y2", yScale.rangeExtent()[1] + gridChartOffset).
-    style("stroke", "#ccc")
+  # gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line").
+  #   attr("x1", x).
+  #   attr("x2", x).
+  #   attr("y1", 0).
+  #   attr("y2", yScale.rangeExtent()[1] + gridChartOffset).
+  #   style("stroke", "#ccc")
 
   # Bar labels
   labelsContainer =
@@ -63,9 +63,12 @@ draw = (data) ->
   barsContainer.selectAll("rect").data(data).enter().append("rect").
     attr('y', y).
     attr('height', yScale.rangeBand()).
-    attr('width', (d) -> x(barValue(d))).
+    attr('width', 1).
     attr('stroke', 'white').
-    attr('fill', 'steelblue')
+    attr('fill', 'steelblue').
+    transition().
+    duration(500).
+    attr('width', (d) -> x(barValue(d)))
 
   # Bar value labels
   barsContainer.selectAll("text").data(data).enter().append("text").

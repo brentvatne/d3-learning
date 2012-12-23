@@ -20,16 +20,34 @@ draw = (tweets) ->
 
   d3.select('body').
      append('svg').
-     selectAll('circle').
+     selectAll('circle.tweet').
      data(tweets).
      enter().
      append('circle').
+     attr('class', 'tweet').
      attr('title', (d) -> d.text)
 
-  d3.selectAll('circle').
+  d3.selectAll('circle.tweet').
      attr('cx', (d) -> hourScale(getHours(d.created_at))).
      attr('cy', (d) -> dayScale(getDay(d.created_at))).
+     attr('r',  0).
+     attr('class', 'tweet').
+     attr('opacity', 0.5).
+     transition().
      attr('r',  (d) -> retweetScale(d.retweet_count))
+
+  d3.selectAll('circle.tweet').on('mouseover', (d, i) ->
+    d3.select(this).
+      attr('stroke-width', 1).
+      transition().
+      attr('stroke-width', 2).
+      attr('opacity', 1.0)
+  ).on('mouseout', (d, i) ->
+    d3.select(this).
+      transition().
+      attr('stroke-width', 1).
+      attr('opacity', 0.5)
+  )
 
   xAxis = d3.svg.axis().scale(hourScale)
   yAxis = d3.svg.axis().scale(dayScale).orient('left').tickFormat(d3.format('d'))
