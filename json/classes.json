@@ -1,0 +1,41 @@
+[
+  { "name": "English 101",
+    "capacity": 60,
+    "registered": 50,
+    "warning": 55 },
+
+  { "name": "French 100",
+    "capacity": 30,
+    "registered": 20,
+    "warning": 25 },
+
+  { "name": "French 200",
+    "capacity": 30,
+    "registered": 14,
+    "warning": 25 },
+
+  { "name": "Spanish 201",
+    "capacity": 25,
+    "registered": 30,
+    "warning": 22 },
+
+  { "name": "Spanish 202",
+    "capacity": 20,
+    "registered": 15,
+    "warning": 8 },
+
+  { "name": "The Agrarian Sociology of Ancient Civilizations",
+    "capacity": 60,
+    "registered": 3,
+    "warning": 15 },
+
+  { "name": "Ruby - Core Skills",
+    "capacity": 15,
+    "registered": 10,
+    "warning": 8 },
+
+  { "name": "Chemistry 412",
+    "capacity": 200,
+    "registered": 160,
+    "warning": 150 }
+]

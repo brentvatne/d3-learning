@@ -46,16 +46,6 @@ draw = (tweets) ->
       attr('transform', 'translate(30,0)').
       call(yAxis)
 
-  # d3.selectAll('circle').
-  #   on('mouseover', (d) ->
-  #     svg.append('text').
-  #         attr('x', hourScale(getHours(d.created_at)) + 15).
-  #         attr('y', dayScale(getDay(d.created_at)) + 10).
-  #         text(d.text).
-  #         attr('class', 'tooltip')).
-  #   on('mouseout', (d) ->
-  #     d3.selectAll('.tooltip').remove())
-
   $('svg circle').tipsy
     gravity: 'w'
     html: true
