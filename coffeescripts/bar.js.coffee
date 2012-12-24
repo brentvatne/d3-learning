@@ -83,7 +83,7 @@ class ClassSizeBarGraph
     # Update
     capacities =
       @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).
-      sort((a, b) -> d3.descending(a?.registered, b?.registered))
+      sort((a, b) -> d3.descending(a?.name, b?.name))
 
     capacities.attr('transform', (d, i) => "translate(#{@barX(d.capacity)}, #{@barY(d, i)})")
     capacities.selectAll('text').text((d, i) -> d.capacity)
@@ -112,7 +112,7 @@ class ClassSizeBarGraph
     # Update
     warnings =
       @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).
-      sort((a, b) -> d3.descending(a?.registered, b?.registered))
+      sort((a, b) -> d3.descending(a?.name, b?.name))
 
     warnings.attr('transform', (d, i) => "translate(#{@barX(d.warning)}, #{@barY(d, i)})")
 
@@ -132,7 +132,7 @@ class ClassSizeBarGraph
     # Get the selection
     bars = @barsContainer.selectAll('.bar').
       data(@data, (d) -> d.name).
-      sort((a, b) -> d3.descending(a?.registered, b?.registered))
+      sort((a, b) -> d3.descending(a?.name, b?.name))
 
     # Update any that change
     # This is also applied to newly added elements
@@ -169,7 +169,7 @@ class ClassSizeBarGraph
     labels =
       @labelsContainer.selectAll('text').
         data(@data, (d) -> d.name).
-        sort((a, b) -> d3.descending(a?.registered, b?.registered))
+        sort((a, b) -> d3.descending(a?.name, b?.name))
 
     # Move them depending on their updated position
     labels.transition().attr('y', @labelY)

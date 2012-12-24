@@ -2,5 +2,6 @@ source :rubygems
 
 gem 'sinatra'
 gem 'sprockets'
-gem 'coffeescript'
+gem 'coffee-script'
 gem 'sass'
+gem 'rake'
