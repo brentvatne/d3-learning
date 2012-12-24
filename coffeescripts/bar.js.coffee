@@ -77,15 +77,15 @@ class ClassSizeBarGraph
 
     enter.append('text').
       attr('class', 'capacity-text').
-      attr('dx', '5px').
+      attr('dx', '10px').
       attr('dy', '1.7em').
       attr('font-size', '11px').
       attr('color', 'white')
 
     enter.append('line').
       attr('class', 'capacity-tick').
-      attr('x1', 0).
-      attr('x2', 0).
+      attr('x1', 5).
+      attr('x2', 5).
       attr('y1', 8).
       attr('y2', @barHeight - 8)
 
@@ -106,15 +106,15 @@ class ClassSizeBarGraph
 
     enter.append('text').
       attr('class', 'warning-text').
-      attr('dx', '5px').
+      attr('dx', '10px').
       attr('dy', '1.7em').
       attr('font-size', '11px').
       attr('color', 'white')
 
     enter.append('line').
       attr('class', 'warning-tick').
-      attr('x1', 0).
-      attr('x2', 0).
+      attr('x1', 5).
+      attr('x2', 5).
       attr('y1', 8).
       attr('y2', @barHeight - 8)
 
