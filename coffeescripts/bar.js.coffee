@@ -40,6 +40,7 @@ class ClassSizeBarGraph
     # Bar labels
     @labelsContainer =
       @chart.append('g').
+        attr('class', 'bar-labels').
         attr('transform', "translate(#{@barLabelWidth - @barLabelPadding}, #{@gridLabelHeight + @gridChartOffset})")
 
     # Warnings
@@ -68,7 +69,7 @@ class ClassSizeBarGraph
     @chart.attr('width', @chartWidth()).
            attr('height', @chartHeight())
 
-    @xAxis.attr('transform', "translate(#{@barLabelWidth}, #{@chartHeight() - 180})")
+    @xAxis.attr('transform', "translate(#{@barLabelWidth}, #{@chartHeight() - 190})")
 
   updateCapacities: ->
     enter = @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).enter().
@@ -77,8 +78,8 @@ class ClassSizeBarGraph
 
     enter.append('text').
       attr('class', 'capacity-text').
-      attr('dx', '10px').
-      attr('dy', '1.7em').
+      attr('dx', '1px').
+      attr('dy', '1.2em').
       attr('font-size', '11px').
       attr('color', 'white')
 
@@ -86,8 +87,8 @@ class ClassSizeBarGraph
       attr('class', 'capacity-tick').
       attr('x1', 5).
       attr('x2', 5).
-      attr('y1', 8).
-      attr('y2', @barHeight - 8)
+      attr('y1', 18).
+      attr('y2', @barHeight - 1)
 
     # Update
     capacities =
@@ -106,8 +107,8 @@ class ClassSizeBarGraph
 
     enter.append('text').
       attr('class', 'warning-text').
-      attr('dx', '10px').
-      attr('dy', '1.7em').
+      attr('dx', '2px').
+      attr('dy', '1.2em').
       attr('font-size', '11px').
       attr('color', 'white')
 
@@ -115,8 +116,8 @@ class ClassSizeBarGraph
       attr('class', 'warning-tick').
       attr('x1', 5).
       attr('x2', 5).
-      attr('y1', 8).
-      attr('y2', @barHeight - 8)
+      attr('y1', 18).
+      attr('y2', @barHeight - 1)
 
     # Update
     warnings =
