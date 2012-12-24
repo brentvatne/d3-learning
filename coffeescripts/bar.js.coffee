@@ -22,7 +22,7 @@ class ClassSizeBarGraph
 
   constructor: (@data) ->
   chartWidth:  -> @maxBarWidth + @barLabelWidth + @valueLabelWidth
-  chartHeight: -> @gridLabelHeight + @gridChartOffset + @data.length * @barHeight
+  chartHeight: -> @gridLabelHeight + @gridChartOffset + @data.length * @barHeight + 200
 
   # Only call this once, it creates the containers
   draw: ->
@@ -52,6 +52,13 @@ class ClassSizeBarGraph
       @chart.append('g').
         attr('transform', "translate(#{@barLabelWidth - @barLabelPadding}, #{@gridLabelHeight + @gridChartOffset})")
 
+
+    xAxisFn = d3.svg.axis().scale(@xScale())
+    @xAxis  =
+      @chart.append('g').
+        attr('class', 'axis x-axis').
+        call(xAxisFn)
+
   update: (@data) ->
     @updateBars()
     @updateLabels()
@@ -60,6 +67,8 @@ class ClassSizeBarGraph
 
     @chart.attr('width', @chartWidth()).
            attr('height', @chartHeight())
+
+    @xAxis.attr('transform', "translate(#{@barLabelWidth}, #{@chartHeight() - 180})")
 
   updateCapacities: ->
     enter = @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).enter().
