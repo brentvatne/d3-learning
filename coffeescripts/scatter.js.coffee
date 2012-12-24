@@ -18,7 +18,7 @@ draw = (tweets) ->
   # radius scale
   retweetScale = d3.scale.linear().domain([0, retweetMax]).range([5, 20])
 
-  d3.select('body').
+  d3.select('#graph').
      append('svg').
      selectAll('circle.tweet').
      data(tweets).
