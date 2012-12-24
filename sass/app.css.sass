@@ -18,13 +18,35 @@ body
 .registered-bar
   stroke: white
   stroke-width: 2
-  fill: black
-  opacity: 0.7
+  opacity: 0.2
+  fill: darken(#ccc, 50%)
+
+.at-capacity
+  fill: red !important
+  opacity: 0.2
+
+.at-warning
+  fill: orange !important
+  opacity: 0.2
+
+.warning
+  opacity: 0.5
+
+.capacity
+  opacity: 0.5
 
 .warning-text
-  fill: orange
-  border-left: 1px solid orange
-  font-weight: bold
+  fill: darken(orange, 20%)
+  stroke: orange
 
 .warning-tick
   stroke: orange
+  stroke-width: 2
+
+.capacity-text
+  fill: darken(red, 20%)
+  stroke: red
+
+.capacity-tick
+  stroke: red
+  stroke-width: 2

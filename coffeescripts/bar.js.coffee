@@ -47,24 +47,58 @@ class ClassSizeBarGraph
       @chart.append('g').
         attr('transform', "translate(#{@barLabelWidth - @barLabelPadding}, #{@gridLabelHeight + @gridChartOffset})")
 
+    # Warnings
+    @capacitiesContainer =
+      @chart.append('g').
+        attr('transform', "translate(#{@barLabelWidth - @barLabelPadding}, #{@gridLabelHeight + @gridChartOffset})")
+
   update: (@data) ->
     @updateBars()
     @updateLabels()
     @updateWarnings()
+    @updateCapacities()
 
     @chart.attr('width', @chartWidth()).
            attr('height', @chartHeight())
 
+  updateCapacities: ->
+    enter = @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).enter().
+      append('g').
+      attr('class', 'capacity')
+
+    enter.append('text').
+      attr('class', 'capacity-text').
+      attr('dx', '5px').
+      attr('dy', '1.7em').
+      attr('font-size', '11px').
+      attr('color', 'white')
+
+    enter.append('line').
+      attr('class', 'capacity-tick').
+      attr('x1', 0).
+      attr('x2', 0).
+      attr('y1', 8).
+      attr('y2', @barHeight - 8)
+
+    # Update
+    capacities =
+      @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).
+      sort((a, b) -> d3.descending(a?.registered, b?.registered))
+
+    capacities.attr('transform', (d, i) => "translate(#{@barX(d.capacity)}, #{@barY(d, i)})")
+    capacities.selectAll('text').text((d, i) -> d.capacity)
+    capacities.selectAll('line')
+
   updateWarnings: ->
+    # Create
     enter = @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).enter().
       append('g').
-      attr('class', 'warning').
-      attr('transform', (d, i) => "translate(#{@barX(@barValue(d))}, #{@barY(d, i)})")
+      attr('class', 'warning')
 
     enter.append('text').
       attr('class', 'warning-text').
       attr('dx', '5px').
-      attr('dy', '1.8em').
+      attr('dy', '1.7em').
       attr('font-size', '11px').
       attr('color', 'white')
 
@@ -72,10 +106,16 @@ class ClassSizeBarGraph
       attr('class', 'warning-tick').
       attr('x1', 0).
       attr('x2', 0).
-      attr('y1', 2).
-      attr('y2', @barHeight - 2)
+      attr('y1', 8).
+      attr('y2', @barHeight - 8)
 
-    warnings = @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name)
+    # Update
+    warnings =
+      @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).
+      sort((a, b) -> d3.descending(a?.registered, b?.registered))
+
+    warnings.attr('transform', (d, i) => "translate(#{@barX(d.warning)}, #{@barY(d, i)})")
+
     warnings.selectAll('text').
              text((d, i) -> d.warning)
 
@@ -100,7 +140,15 @@ class ClassSizeBarGraph
       attr('transform', (d, i) => "translate(0, #{@barY(d, i)})")
 
     bars.select('.registered-bar').transition().
-      attr('width', (d) => @barX(@barValue(d)))
+      attr('width', (d) => @barX(@barValue(d))).
+      attr('class', (d, i) ->
+        if d.registered >= d.capacity
+          'registered-bar at-capacity'
+        else if d.registered >= d.warning
+          'registered-bar at-warning'
+        else
+          'registered-bar'
+      )
 
     # Remove any data that is no longer available
     bars.exit().remove()
@@ -149,8 +197,10 @@ draw = (data) ->
     @graph.draw()
 
   # Simulate changing data
-  data[0].registered = 40 + Math.floor(Math.random() * (20 - 1 + 1)) + 1
-  data[3].registered = 20 + Math.floor(Math.random() * (20 - 1 + 1)) + 1
+  data[0].registered = 40 + Math.floor(Math.random() * (80 - 1 + 1)) + 1
+  data[3].registered = 20 + Math.floor(Math.random() * (80 - 1 + 1)) + 1
+  data[1].registered = 20 + Math.floor(Math.random() * (80 - 1 + 1)) + 1
+  data[5].registered = 0 + Math.floor(Math.random() * (80 - 1 + 1)) + 1
 
   # Simulate adding a new element, and then removing it a bit later
   if @i >= 5 and @i <= 10
@@ -165,6 +215,6 @@ draw = (data) ->
 
 updateData = ->
   d3.json "/assets/classes.json", draw
-  setTimeout(updateData, 3000)
+  setTimeout(updateData, 2000)
 
 updateData()
