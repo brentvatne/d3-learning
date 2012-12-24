@@ -72,7 +72,7 @@ class ClassSizeBarGraph
 
     labels =
       @labelsContainer.selectAll('text').
-        data(@data).
+        data(@data, (d) -> d.name).
         sort((a, b) -> d3.descending(a?.registered, b?.registered))
 
     labels.enter().append('text').
