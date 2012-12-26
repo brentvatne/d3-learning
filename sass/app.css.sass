@@ -1,3 +1,19 @@
+@mixin opacity($decimal)
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=#{$decimal * 100})"
+
+  /* IE 5-7 */
+  filter: alpha(opacity=#{$decimal * 100})
+
+  /* Netscape */
+  -moz-opacity: $decimal
+
+  /* Safari 1.x */
+  -khtml-opacity: $decimal
+
+  /* Good browsers */
+  opacity: $decimal
+
 body
   font-family: Helvetica
 
@@ -16,6 +32,26 @@ div.bar-labels
 div.bar-label
   text-align: right
   font-size: 10px
+
+div.warnings-container
+  position: absolute
+
+div.warning
+  position: absolute
+
+  .warning-text
+    position: absolute
+    left: 1px
+    top: 2px
+    font-size: 11px
+
+  .warning-tick
+    position: absolute
+    left: 3px
+    height: 14px
+    width: 2px
+    top: 16px
+    background: orange
 
 .axis text
   font-family: sans-serif
@@ -39,28 +75,31 @@ div.bar
   position: absolute
 
 div.registered-bar
-  /* IE 8 */
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"
-
-  /* IE 5-7 */
-  filter: alpha(opacity=20)
-
-  /* Netscape */
-  -moz-opacity: 0.2
-
-  /* Safari 1.x */
-  -khtml-opacity: 0.2
-
-  /* Good browsers */
-  opacity: 0.2
+  @include opacity(0.2)
   position: absolute
   background: darken(#ccc, 50%)
+  text-align: left
+  font-size: 11px
+  line-height: 30px
+  padding-left: 8px
+  color: darken(#ccc, 50%)
+  font-weight: bold
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+  box-sizing: border-box
+
+  &:hover
+    color: white
+    z-index: 1000
+    @include opacity(0.6)
 
 div.at-capacity
   background: red
+  color: red
 
 div.at-warning
   background: orange
+  color: orange
 
 .at-capacity
   fill: red !important
@@ -77,7 +116,15 @@ div.at-warning
 .warning-text
   fill: darken(orange, 20%)
   stroke: orange
-  font-weight: normal !important
+  font-weight: normal
+
+div.warning-text
+  color: orange
+  font-weight: bold
+
+div.capacity-text
+  color: red
+  font-weight: bold
 
 .warning-tick
   stroke: orange

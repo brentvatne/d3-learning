@@ -52,13 +52,14 @@ class ClassSizeBarGraph
           top: 0px;
         """)
 
-    # # Warnings
-    # @warningsContainer =
-    #   @chart.append('div').
-    #     attr('class', 'warnings-container').
-    #     style('position', 'absolute').
-    #     style('left', @barLabelWidth - @barLabelPadding).
-    #     style('top', @gridLabelHeight + @gridChartOffset)
+    # Warnings
+    @warningsContainer =
+      @chart.append('div').
+        attr('class', 'warnings-container').
+        attr('style', """
+          left: #{@barLabelWidth - @barLabelPadding}px;
+          top: 0px;
+        """)
 
     # # Warnings
     # @capacitiesContainer =
@@ -76,7 +77,7 @@ class ClassSizeBarGraph
   update: (@data) ->
     @updateBars()
     @updateLabels()
-    # @updateWarnings()
+    @updateWarnings()
     # @updateCapacities()
 
     @chart.attr('width', @chartWidth()).
@@ -114,7 +115,8 @@ class ClassSizeBarGraph
           'registered-bar at-warning'
         else
           'registered-bar'
-      )
+      ).
+      text((d, i) -> d.registered)
 
     # Remove any data that is no longer available
     bars.exit().remove()
@@ -173,34 +175,32 @@ class ClassSizeBarGraph
 
   updateWarnings: ->
     # Create
-    enter = @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).enter().
-      append('g').
-      attr('class', 'warning')
+    enter =
+      @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).
+        enter().
+        append('div').
+        attr('class', 'warning')
 
-    enter.append('text').
-      attr('class', 'warning-text').
-      attr('dx', '2px').
-      attr('dy', '1.2em').
-      attr('font-size', '11px').
-      attr('color', 'white')
+    enter.append('div').
+      attr('class', 'warning-text')
 
-    enter.append('line').
-      attr('class', 'warning-tick').
-      attr('x1', 5).
-      attr('x2', 5).
-      attr('y1', 18).
-      attr('y2', @barHeight - 1)
+    enter.append('div').
+      attr('class', 'warning-tick')
 
     # Update
     warnings =
       @warningsContainer.selectAll('.warning').data(@data, (d) -> d.name).
-      sort((a, b) -> d3.descending(a?.name, b?.name))
+        sort((a, b) -> d3.descending(a?.name, b?.name))
 
-    warnings.attr('transform', (d, i) => "translate(#{@barX(d.warning)}, #{@barY(d, i)})")
+    warnings.attr('style', (d, i) => """
+      left: #{@barX(d.warning)}px;
+      top: #{@barY(d, i)}px;
+    """)
 
-    warnings.selectAll('text').
-             text((d, i) -> d.warning)
+    warnings.selectAll('.warning-text').
+      text((d, i) -> d.warning)
 
+    warnings.exit().remove()
 
 draw = (data) ->
   @i ||= 0
