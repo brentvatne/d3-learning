@@ -2,7 +2,7 @@ class ClassSizeBarGraph
   valueLabelWidth: 40  # Space reserved for value labels (right)
   barHeight:       30  # Height of one bar
   barLabelWidth:   100 # Space reserved for bar labels
-  barLabelPadding: 10  # Padding between bar and bar labels (left)
+  barLabelPadding: 5   # Padding between bar and bar labels (left)
   gridLabelHeight: 18  # Space reserved for gridline labels
   gridChartOffset: 3   # Space between start of grid and first bar
   maxBarWidth:     970 # Width of the bar with the max value
@@ -48,7 +48,7 @@ class ClassSizeBarGraph
       @chart.append('div').
         attr('class', 'bar-labels').
         attr('style', """
-          left: #{@barLabelPadding}px;
+          left: 10px;
           top: 0px;
         """)
 
