@@ -43,13 +43,14 @@ class ClassSizeBarGraph
           height: #{@chartHeight()}px; width: #{@chartWidth()}px;
         """)
 
-    # # Bar labels
-    # @labelsContainer =
-    #   @chart.append('div').
-    #     attr('class', 'bar-labels').
-    #     style('position', 'absolute').
-    #     style('left', @barLabelWidth - @barLabelPadding).
-    #     style('top', @gridLabelHeight + @gridChartOffset)
+    # Bar labels
+    @labelsContainer =
+      @chart.append('div').
+        attr('class', 'bar-labels').
+        attr('style', """
+          left: #{@barLabelPadding}px;
+          top: 0px;
+        """)
 
     # # Warnings
     # @warningsContainer =
@@ -74,7 +75,7 @@ class ClassSizeBarGraph
 
   update: (@data) ->
     @updateBars()
-    # @updateLabels()
+    @updateLabels()
     # @updateWarnings()
     # @updateCapacities()
 
@@ -120,24 +121,24 @@ class ClassSizeBarGraph
 
   updateLabels: ->
     # Add new labels
-    @labelsContainer.selectAll('text').
+    @labelsContainer.selectAll('.bar-label').
       data(@data, (d) -> d.name).
       enter().
-      append('text').
-      attr('stroke', 'none').
-      attr('fill', 'black').
-      attr('dy', '.35em').
-      attr('text-anchor', 'end').
-      attr('font-size', '10px').
+      append('div').
+      attr('class', 'bar-label').
       text(@barLabel)
 
     labels =
-      @labelsContainer.selectAll('text').
+      @labelsContainer.selectAll('.bar-label').
         data(@data, (d) -> d.name).
         sort((a, b) -> d3.descending(a?.name, b?.name))
 
     # Move them depending on their updated position
-    labels.transition().attr('y', @labelY)
+    labels.attr('style', """
+        top: 0.35em;
+        height: #{@barHeight}px;
+        line-height: #{@barHeight}px;
+    """)
 
     # Remove any data that is no longer available
     labels.exit().remove()
