@@ -25,13 +25,41 @@ body
   opacity: 0.2
   fill: darken(#ccc, 50%)
 
+div.bars-container
+  position: relative
+
+div.bar
+  position: absolute
+
+div.registered-bar
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)"
+
+  /* IE 5-7 */
+  filter: alpha(opacity=20)
+
+  /* Netscape */
+  -moz-opacity: 0.2
+
+  /* Safari 1.x */
+  -khtml-opacity: 0.2
+
+  /* Good browsers */
+  opacity: 0.2
+  position: absolute
+  background: darken(#ccc, 50%)
+
+div.at-capacity
+  background: red
+
+div.at-warning
+  background: orange
+
 .at-capacity
   fill: red !important
-  opacity: 0.2
 
 .at-warning
   fill: orange !important
-  opacity: 0.2
 
 .warning
   opacity: 0.5
