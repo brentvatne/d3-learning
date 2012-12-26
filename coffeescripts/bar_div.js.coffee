@@ -2,7 +2,7 @@ class ClassSizeBarGraph
   valueLabelWidth: 40  # Space reserved for value labels (right)
   barHeight:       30  # Height of one bar
   barLabelWidth:   100 # Space reserved for bar labels
-  barLabelPadding: 5   # Padding between bar and bar labels (left)
+  barLabelPadding: 10  # Padding between bar and bar labels (left)
   gridLabelHeight: 18  # Space reserved for gridline labels
   gridChartOffset: 3   # Space between start of grid and first bar
   maxBarWidth:     970 # Width of the bar with the max value
@@ -61,13 +61,14 @@ class ClassSizeBarGraph
           top: 0px;
         """)
 
-    # # Warnings
-    # @capacitiesContainer =
-    #   @chart.append('div').
-    #     attr('class', 'warnings-container').
-    #     style('position', 'absolute').
-    #     style('left', @barLabelWidth - @barLabelPadding).
-    #     style('top', @gridLabelHeight + @gridChartOffset)
+    # Warnings
+    @capacitiesContainer =
+      @chart.append('div').
+        attr('class', 'capacities-container').
+        attr('style', """
+          left: #{@barLabelWidth - @barLabelPadding}px;
+          top: 0px;
+        """)
 
     # @xAxis  =
     #   @chart.append('g').
@@ -78,7 +79,7 @@ class ClassSizeBarGraph
     @updateBars()
     @updateLabels()
     @updateWarnings()
-    # @updateCapacities()
+    @updateCapacities()
 
     @chart.attr('width', @chartWidth()).
            attr('height', @chartHeight())
@@ -146,32 +147,33 @@ class ClassSizeBarGraph
     labels.exit().remove()
 
   updateCapacities: ->
-    enter = @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).enter().
-      append('g').
-      attr('class', 'capacity')
+    # Create
+    enter =
+      @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).
+        enter().
+        append('div').
+        attr('class', 'capacity')
 
-    enter.append('text').
-      attr('class', 'capacity-text').
-      attr('dx', '1px').
-      attr('dy', '1.2em').
-      attr('font-size', '11px').
-      attr('color', 'white')
+    enter.append('div').
+      attr('class', 'capacity-text')
 
-    enter.append('line').
-      attr('class', 'capacity-tick').
-      attr('x1', 5).
-      attr('x2', 5).
-      attr('y1', 18).
-      attr('y2', @barHeight - 1)
+    enter.append('div').
+      attr('class', 'capacity-tick')
 
     # Update
     capacities =
       @capacitiesContainer.selectAll('.capacity').data(@data, (d) -> d.name).
-      sort((a, b) -> d3.descending(a?.name, b?.name))
+        sort((a, b) -> d3.descending(a?.name, b?.name))
 
-    capacities.attr('transform', (d, i) => "translate(#{@barX(d.capacity)}, #{@barY(d, i)})")
-    capacities.selectAll('text').text((d, i) -> d.capacity)
-    capacities.selectAll('line')
+    capacities.attr('style', (d, i) => """
+      left: #{@barX(d.capacity)}px;
+      top: #{@barY(d, i)}px;
+    """)
+
+    capacities.selectAll('.capacity-text').
+      text((d, i) -> d.capacity)
+
+    capacities.exit().remove()
 
   updateWarnings: ->
     # Create

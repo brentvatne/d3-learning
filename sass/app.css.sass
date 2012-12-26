@@ -33,25 +33,33 @@ div.bar-label
   text-align: right
   font-size: 10px
 
-div.warnings-container
+div.warnings-container, div.capacities-container
   position: absolute
 
-div.warning
+div.warning, div.capacity
   position: absolute
 
-  .warning-text
+  .warning-text, .capacity-text
     position: absolute
-    left: 1px
+    font-weight: bold
+    width: 40px
+    text-align: center
+    left: -16px
     top: 2px
     font-size: 11px
 
-  .warning-tick
+  .warning-tick, .capacity-tick
     position: absolute
     left: 3px
-    height: 14px
-    width: 2px
+    height: 13px
+    width: 1px
     top: 16px
+
+  .warning-tick
     background: orange
+
+  .capacity-tick
+    background: red
 
 .axis text
   font-family: sans-serif
@@ -67,6 +75,7 @@ div.warning
   stroke-width: 2
   opacity: 0.2
   fill: darken(#ccc, 50%)
+  border: 1px solid white
 
 div.bars-container
   position: relative
@@ -116,15 +125,12 @@ div.at-warning
 .warning-text
   fill: darken(orange, 20%)
   stroke: orange
-  font-weight: normal
 
 div.warning-text
   color: orange
-  font-weight: bold
 
 div.capacity-text
   color: red
-  font-weight: bold
 
 .warning-tick
   stroke: orange
