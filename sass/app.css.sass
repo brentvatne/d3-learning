@@ -44,13 +44,13 @@ div.warning, div.capacity
     font-weight: bold
     width: 40px
     text-align: center
-    left: -16px
+    left: -14px
     top: 2px
     font-size: 11px
 
   .warning-tick, .capacity-tick
     position: absolute
-    left: 3px
+    left: 5px
     height: 13px
     width: 1px
     top: 16px
@@ -75,7 +75,8 @@ div.warning, div.capacity
   stroke-width: 2
   opacity: 0.2
   fill: darken(#ccc, 50%)
-  border: 1px solid white
+  border-bottom: 1px solid white
+  border-top: 1px solid white
 
 div.bars-container
   position: relative
@@ -144,3 +145,23 @@ div.capacity-text
 .capacity-tick
   stroke: red
   stroke-width: 2
+
+// This is some crazy stuff below
+// Modified the svg axis rendered and it now depends on
+// these classes
+.path
+  background: black
+  position: absolute
+  height: 1px
+  width: 1px
+
+.text
+  position: absolute
+  font-size: 11px
+  font-weight: normal
+
+.div-axis
+  position: absolute
+
+.tick-group
+  position: absolute

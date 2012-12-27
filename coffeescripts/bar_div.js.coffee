@@ -70,10 +70,10 @@ class ClassSizeBarGraph
           top: 0px;
         """)
 
-    # @xAxis  =
-    #   @chart.append('g').
-    #     attr('class', 'axis x-axis').
-    #     call(d3.svg.axis().scale(@xScale()))
+    @xAxis  =
+      @chart.append('div').
+        attr('class', 'axis x-axis div-axis').
+        call(d3.div.axis().scale(@xScale()))
 
   update: (@data) ->
     @updateBars()
@@ -84,7 +84,10 @@ class ClassSizeBarGraph
     @chart.attr('width', @chartWidth()).
            attr('height', @chartHeight())
 
-    # @xAxis.attr('transform', "translate(#{@barLabelWidth}, #{@chartHeight() - 190})")
+    @xAxis.attr('style', """
+      left: #{@barLabelWidth + 1}px;
+      top:  #{@chartHeight() - 210}px;
+    """)
 
   updateBars: ->
     # Add new bars
